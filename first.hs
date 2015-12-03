@@ -27,3 +27,8 @@ data TriState = OnState | OffState | ChaocState
 rotateTriState OnState = OffState
 rotateTriState OffState = ChaocState
 rotateTriState ChaocState = OnState
+
+
+funcZ x = case x + 1 of
+            1 -> True
+            _ -> False
