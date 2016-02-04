@@ -11,7 +11,7 @@ funcIO a = do
 funcTakeLast :: [a] -> Maybe a
 
 
-funcTakeLast [a, b] = Just b
+funcTakeLast [_, b] = Just b
 funcTakeLast [] = Nothing
 funcTakeLast (_ : xs) = funcTakeLast xs
 
@@ -23,3 +23,9 @@ ioConcat s1 s2 = do
                 aStr <- funcIO s1
                 bStr <- funcIO s2
                 return (aStr ++ bStr)
+
+
+
+func3IO :: String -> IO String
+
+func3IO a = pure a
