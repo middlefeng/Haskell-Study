@@ -78,10 +78,20 @@ data StateM state a = StateM (state -> (a, state))
 
 instance Functor (StateM state) where
 
-    fmap f m = (StateM nextState) where
-                    nextState s = let (a, y) = (mf s) in
+    fmap f (StateM m) = (StateM nextState) where
+                    nextState s = let (a, y) = (m s) in
                                     ((f a), y)
-                                        where (StateM mf) = m
+
+
+
+{--
+instance Applicative (StateM state) where
+    
+    pure a = StateM (\s -> (a, s))
+
+    (StateM f) <*> (StateM m) = (StateM nextState) where
+                            nextState s = let (a, t) = (m s) in ((f a), t)
+--}
 
 
 
