@@ -6,7 +6,10 @@ module EvaluatorMonadTest where
 import Evaluator as E
 
 
-testApplicativeIdentity :: (Eq a, Eq state) => a -> state -> Bool
+testApplicativeIdentity ::  (Eq a, Eq state) =>
+                            a ->        -- inner for the Applictive
+                            state ->    -- test parameter for the resultant Applicative
+                            Bool
 
 testApplicativeIdentity a s = let m = (\state -> (a, state)) in
                                     let (E.StateM m') = (pure id <*> (E.StateM m)) in
@@ -16,7 +19,10 @@ testApplicativeIdentity a s = let m = (\state -> (a, state)) in
 
 
 
-testApplicativeHomo :: (Int -> Int) -> Int -> Int -> Bool
+testApplicativeHomo ::  (Int -> Int) ->         -- inner for the first Applicatives map function
+                        Int ->                  -- inner for the second Applicatives
+                        Int ->                  -- test parameter for the resultant two Applicatives
+                        Bool 
 
 testApplicativeHomo f s x = let mf :: E.StateM Int (Int -> Int)
                                 mf = pure f
