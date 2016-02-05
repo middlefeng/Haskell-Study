@@ -90,10 +90,10 @@ instance Applicative (StateM state) where
     (StateM mf) <*> (StateM m) = (StateM nextState) where            -- m           :: state -> (a, state)
                                                                      -- nextState   :: state -> (b, state)
                                                                      -- mf          :: state -> (a -> b, state),
-                            nextState s = let (f, t) = (mf s) in     -- s :: state
-                                                                     -- f :: a -> b
+                            nextState s = let (a, t) = (m s) in      -- a :: a
+                                                                     -- s :: state
                                                                      -- t :: state
-                                            let (a, t') = (m t) in
+                                            let (f, t') = (mf t) in   -- (mf t) :: (a -> b, state)
                                                 ((f a), t')
 
 
