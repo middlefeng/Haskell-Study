@@ -87,14 +87,27 @@ instance Applicative (StateM state) where
     
     pure a = StateM (\s -> (a, s))
 
-    (StateM mf) <*> (StateM m) = (StateM nextState) where            -- m           :: state -> (a, state)
-                                                                     -- nextState   :: state -> (b, state)
-                                                                     -- mf          :: state -> (a -> b, state),
-                            nextState s = let (a, t) = (m s) in      -- a :: a
-                                                                     -- s :: state
-                                                                     -- t :: state
-                                            let (f, t') = (mf t) in   -- (mf t) :: (a -> b, state)
+    (StateM mf) <*> (StateM m) = (StateM nextState) where               -- m           :: state -> (a, state)
+                                                                        -- nextState   :: state -> (b, state)
+                                                                        -- mf          :: state -> (a -> b, state),
+                            nextState s = let (a, t) = (m s) in         -- a :: a
+                                                                        -- s :: state
+                                                                        -- t :: state
+                                            let (f, t') = (mf t) in     -- (mf t) :: (a -> b, state)
                                                 ((f a), t')
+
+
+
+instance Monad (StateM state) where
+    
+    (StateM m) >>= f = (StateM nextState) where
+                            nextState s = let (a, t) = (m s) in             -- m :: state -> (a, state)
+                                                                            -- a :: a
+                                                                            -- t :: state
+                                            let (StateM m') = (f a) in      -- f :: a -> StateM (state -> (b, state))
+                                                                            -- m' :: (state -> (b, state))
+                                                m' t
+
 
 
 
