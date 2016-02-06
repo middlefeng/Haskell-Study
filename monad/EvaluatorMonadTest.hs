@@ -35,6 +35,27 @@ testApplicativeHomo f s x = let mf :: E.StateM Int (Int -> Int)
                                                 (b1 == b2) && (t1 == t2)
 
 
+
+
+
+testMonadHomo :: (Int -> E.StateM Int Int) ->     -- second parameter to >>=
+                 Int ->                           -- inner for the beginning Monad
+                 Int ->                           -- test parameter for the resultant two Monads
+                 Bool 
+
+
+testMonadHomo f s x = let m0 :: E.StateM Int Int
+                          m0 = f s
+                          m1 :: E.StateM Int Int
+                          m1 = ((return s) >>= f) in
+                                let (E.StateM f0) = m0
+                                    (E.StateM f1) = m1 in
+                                        let (b1, t1) = f0 x
+                                            (b2, t2) = f1 x in
+                                                (b1 == b2) && (t1 == t2)
+
+
+
                                                 
 
 

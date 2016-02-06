@@ -109,6 +109,19 @@ instance Monad (StateM state) where
                                                 m' t
 
 
+tick :: (Num state) => StateM state ()
+
+tick = StateM (\x -> ((), x + 1))
+
+
+
+
+showStatM :: (Show state, Show a) => (StateM state a) -> state -> String
+
+showStatM (StateM f) initialState =  let result = (f initialState) in
+                                        show result
+
+
 
 
 eval'' :: Term -> (Monad m) => m Int
@@ -118,6 +131,18 @@ eval'' (Div t u) = (eval'' t) >>=
                    \a -> (eval'' u) >>=
                    \b -> return (a `div` b)
 
+
+
+
+
+
+evalTick :: Term -> StateM Int Int
+
+evalTick (Con a) = return a
+evalTick (Div t u) = (evalTick t) >>=
+                     \a -> (evalTick u) >>=
+                     \b -> tick >>
+                     return (a `div` b)
 
 
 
