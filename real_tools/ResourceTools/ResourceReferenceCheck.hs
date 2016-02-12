@@ -15,7 +15,10 @@ import ResourceName (stripFactor, showListInLines)
 
 
 
-separateArgs :: [String] -> (Maybe [String], Maybe String)
+type SourcePath = String
+type ResourceRoot = String
+
+separateArgs :: [String] -> (Maybe [SourcePath], Maybe ResourceRoot)
 
 separateArgs [] = (Nothing, Nothing)
 

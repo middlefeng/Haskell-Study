@@ -38,10 +38,10 @@ hasScaleFactor name factor list = let nameWithFactor = name ++ "@" ++ factor ++ 
 removeDuplication :: [String] -> [String]
 
 removeDuplication s = accuUniqueSet s [] where
-                        accuUniqueSet []  accum     = accum
-                        accuUniqueSet (x:xs) accum 
-                                    | elem x accum  = accuUniqueSet xs accum
-                                    | otherwise     = x : accuUniqueSet xs accum
+                            accuUniqueSet []  accum     = accum
+                            accuUniqueSet (x:xs) accum 
+                                        | elem x accum  = accuUniqueSet xs accum
+                                        | otherwise     = accuUniqueSet xs (accum ++ [x])
 
 
 
